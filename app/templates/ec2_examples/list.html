@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+    <form action="{{url_for('ec2_create')}}" method="post">
+          Grow one Worker Pool
+        <input type="submit" value="Grow one Worker Pool">
+    </form>
+
+    <form action="{{url_for('deletealldata')}}" method='post' onsubmit='return confirm("Delete all the data! Are you sure?")'>
+           Delete all the data
+        <input type='submit' value='Delete all the data' />
+    </form>
+
+
+
+
+    <div class='error'>{{error_msg if error_msg != None}}</div>
+
+    <form action='{{url_for('parameters')}}' method='post'>
+        <div><input type="submit" value="Save"></div>
+
+
+        <div>
+        <label>CPU threshold for growing the worker pool</label>
+        <input type='text' name='code' value='{{code if code != None }}'>You need type from 51 to 90 (Must be integer)
+        </div>
+
+        <div>
+        <label>CPU threshold for shrinking the worker pool</label>
+        <input type='text' name='title' value='{{ctitle if ctitle  != None}}'>You need type from 20 to 50 (Must be integer)
+        </div>
+
+        <div>
+        <label>Ratio by which to expand the worker pool</label>
+        <input type='text' name='description' value='{{description if description  != None}}'>You need to type 2 or 3 or 4 or 5
+        </div>
+
+
+        <div>
+        <label>Ratio by which to shrink the worker pool</label>
+        <input type='text' name='shrinkratio' value='{{shrinkratio if shrinkratio  != None}}'>You need to type 2 or 3 or 4 or 5
+        </div>
+
+
+
+        <div><input type="submit" value="Save"></div>
+    </form>
+
+
+
+
+
+    <table />
+    <thead>
+       <th>ID</th>
+       <th>Type</th>
+       <th>Availability Zone</th>
+       <th>Status</th>
+    </thead>
+
+    {% for instance in instances %}
+        <tr>
+            <td>{{ instance.id }}</td>
+            <td>{{ instance.instance_type }}</td>
+            <td>{{ instance.placement['AvailabilityZone']}}</td>
+            <td>{{ instance.state['Name'] }}</td>
+
+            <td>
+                <form action="{{url_for('ec2_view',id=instance.id)}}" method='get'>
+                    <input type='submit' value='Details' />
+                </form>
+            </td>
+         
+            <td>
+                <form action="{{url_for('ec2_destroy',id=instance.id)}}" method='post' onsubmit='return confirm("Are you sure?")'>
+                    <input type='submit' value='Delete this Worker Pool' />
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

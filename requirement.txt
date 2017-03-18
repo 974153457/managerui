@@ -1,0 +1,14 @@
+boto3
+Wand
+mysql-connector
+flask
+flask-login
+flask-openid
+flask-mail
+flask-sqlalchemy
+flask-whooshalchemy
+flask-wtf
+flask-babel
+guess_language
+flipflop
+coverage
